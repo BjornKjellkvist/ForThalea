@@ -17,7 +17,7 @@
     </div>
   </div>
   <div id="gameScreen" hidden>
-    <img id="bg" style="width: 720px; height: 1280;">
+    <img id="bg" style="width: 720px; height: 1280; object-fit: fill;">
     </img>
     <div id="port" class="border">
       <label id="lbPort" style="width: auto; display: block; margin-left: 5px;"></label>
@@ -29,7 +29,7 @@
       <button id='btNext' style="position: absolute; right:0; bottom:0; height: 40px; width: 90px;"
         onclick="next()">Next</button>
     </div>
-    <div id="btnContainer">
+    <div id="btnContainer" hidden>
       <div style="display:flex; justify-content: space-between;  flex-direction: row; align-items: stretch; gap:50px">
         <button id="b1" style="flex: 1;">test1</button>
         <button id="b2" style="flex: 1;">test2</button>
