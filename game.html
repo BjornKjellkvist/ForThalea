@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>For Thaléa</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="./game.js"></script>
+</head>
+
+<body>
+  <div id="startScreen" style="width: 720px; height: 1280;">
+    <div style="display: flex; flex-direction: column; text-align: center; margin-left: 50px;margin-right: 50px;">
+      <h1 style="margin-top: 200px;">💐🌺🏵️For Thaléa🏵️🌺💐</h1>
+      <button style="margin-top: 50px;" onclick="startGame()">Start</button>
+      <button style="margin-top: 25px;" onclick="window.close();">Exit</button>
+    </div>
+  </div>
+  <div id="gameScreen" hidden>
+    <img id="bg" style="width: 720px; height: 1280;">
+    </img>
+    <div id="port" class="border">
+      <label id="lbPort" style="width: auto; display: block; margin-left: 5px;"></label>
+      <hr style="margin: 0px;">
+      <img id="imgPort" style="width: 120px; height: 120px; padding: 0px; margin: 0px;" />
+    </div>
+    <div id="tbContainer" class="border">
+      <label id="lbText"></label>
+      <button id='btNext' style="position: absolute; right:0; bottom:0; height: 40px; width: 90px;"
+        onclick="next()">Next</button>
+    </div>
+    <div id="btnContainer">
+      <div style="display:flex; justify-content: space-between;  flex-direction: row; align-items: stretch; gap:50px">
+        <button id="b1" style="flex: 1;">test1</button>
+        <button id="b2" style="flex: 1;">test2</button>
+        <button id="b3" style="flex: 1;">test3</button>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

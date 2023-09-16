@@ -1,0 +1,51 @@
+body {
+  margin: 0px;
+  padding: 0px;
+}
+
+button {
+  height: 50px;
+}
+
+button :hover {
+  color: rgba(255, 255, 255, 1);
+  box-shadow: 0 5px 15px rgba(145, 92, 182, .4);
+}
+
+.border {
+  border-color: black;
+  border-style: double;
+  border-width: large;
+}
+
+#btnContainer {
+  top: 1110px;
+  position: absolute;
+  width: 720px;
+  height: 50px;
+}
+
+#tbContainer {
+  padding: 10px;
+  position: absolute;
+  width: 600px;
+  height: 180px;
+  top: 894px;
+  left: 50px;
+  background-color: rgba(255,255,255,0.5);
+}
+
+#lbText {
+  font-size: xx-large;
+}
+
+#port{
+  background-color: whitesmoke;
+  position: absolute;
+  top: 750px;
+  left: 40px;
+  width: 120px;
+  height: 140px;
+  padding: 0px;
+  margin: 0px;
+}
