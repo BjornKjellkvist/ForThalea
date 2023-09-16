@@ -47,6 +47,7 @@ var narator = new person('nar');
 
 var act1 = new conversation([
   new dialog(narator, "You find yourself at a bustling street"),
+  new dialog(narator, "You find yourself at a bustling street"),
   new dialog(thalea, 'Hi my dude! how are you doing?', '0'),
   new dialog(bjorn, "Sup, I'm good! Are you ready for the sick concert we are about to watch here at La Chispa wich we are at during our current trip to South America?", '0'),
 ]);
@@ -88,6 +89,10 @@ function next() {
 }
 
 function showPortrait(dialog) {
+  if (isNarrator(dialog)) {
+    port.hidden = true;
+    return;
+  }
   img = getImagesURL(dialog.person.portrait[dialog.portrait]);
   imgPort.src = img
   lbPort.innerHTML = dialog.person.name;
@@ -111,15 +116,11 @@ function isNarrator(dialog) {
 }
 
 function getAudio(person) {
- return person.audio[Math.floor(Math.random()*person.audio.length)];
+  return person.audio[Math.floor(Math.random() * person.audio.length)];
 }
 
 function showText(dialog) {
-  if (!isNarrator(dialog)) {
-    showPortrait(dialog);
-  } else {
-    port.hidden = true;
-  }
+  showPortrait(dialog);
   var textSpeed = 15;
   var resultat = "";
   lbText.text = "";
