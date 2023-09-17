@@ -73,22 +73,22 @@ var thalea = new person('Thaléa', [new Audio(getAudioURL('Tdialog1'))], ["Tport
 var narator = new person('nar');
 
 var act1 = new conversation([
-  // new dialog(narator, "You find yourself at a bustling street"),
-  // new dialog(narator, "You spot a familiar face in the crowd"),
-  // new dialog(thalea, 'Hi my dude! how are you doing?', '0'),
-  // new dialog(bjorn, "Sup, I'm good! Are you ready for the sick concert we are about to watch here at La Chispa wich we are at during our current trip to South America?", '0'),
-  // new dialog(thalea, "I am super ready for this concert we are about to witness in my favorite street, La Chispa, located in my favorite country, Paraguay", '0'),
-  // new dialog(narator, "You enjoy your time togheter at the open air concert"),
-  // new dialog(narator, "Time passes..."),
-  // new dialog(narator, "..."),
-  // new dialog(bjorn, "Hey, would you still want to be friends with me if I was turned into a worm?", '1'),
-  // new dialog(thalea, "...You what? Turn into a worm? Like if you transformed right now?", '1'),
-  // new dialog(bjorn, "Yea, if I turned into a work would you still be friends with me?", '0'),
+  new dialog(narator, "You find yourself at a bustling street"),
+  new dialog(narator, "You spot a familiar face in the crowd"),
+  new dialog(thalea, 'Hi my dude! how are you doing?', '0'),
+  new dialog(bjorn, "Sup, I'm good! Are you ready for the sick concert we are about to watch here at La Chispa wich we are at during our current trip to South America?", '0'),
+  new dialog(thalea, "I am super ready for this concert we are about to witness in my favorite street, La Chispa, located in my favorite country, Paraguay", '0'),
+  new dialog(narator, "You enjoy your time togheter at the open air concert"),
+  new dialog(narator, "Time passes..."),
+  new dialog(narator, "..."),
+  new dialog(bjorn, "Hey, would you still want to be friends with me if I was turned into a worm?", '1'),
+  new dialog(thalea, "...You what? Turn into a worm? Like if you transformed right now?", '1'),
+  new dialog(bjorn, "Yea, if I turned into a work would you still be friends with me?", '0'),
   new dialog(narator, "The question caughts you off guard, you have a very important choice to make"),
   new choices([worm1, worm2], "How do you respond?"),
 ]);
 
-var act2= new conversation([
+var act2 = new conversation([
   new dialog(thalea, "Of course, I would still like you! Whether you're a person or a worm, you'd still be the same wonderful friend to me. Our friendship isn't based on appearances or forms; it's about the connection we share and the bond we've built over time. So don't worry, I'd always like you just the way you are", '0'),
 ])
 
@@ -179,41 +179,29 @@ function renderTextbox() {
   tb.hidden = false;
 }
 
-function showText(dialog) {
+const timer = ms => new Promise(res => setTimeout(res, ms));
+
+async function showText(dialog) {
   showPortrait(dialog);
   var textSpeed = 15;
   var resultat = "";
   lbText.text = "";
   var arr = dialog.text.split("");
-  var promise = Promise.resolve();
-  arr.forEach(e => {
-    promise = promise.then(function () {
-      resultat = resultat + e;
-      lbText.innerHTML = resultat;
-      if (!isNarrator(dialog)) {
-        getAudio(dialog.person).play();
-      }
-      return new Promise(function (resolve) {
-        setTimeout(resolve, textSpeed);
-      });
-    });
-  });
+  btNext.disabled = true;
+  for (var i = 0; i < arr.length; i++) {
+    e = arr[i];
+    resultat = resultat + e;
+    lbText.innerHTML = resultat;
+    if (!isNarrator(dialog)) {
+      getAudio(dialog.person).play();
+    }
+    await timer(textSpeed);
+  }
+  btNext.disabled = false;
 }
 
 function renderText(text) {
-  var textSpeed = 15;
-  var resultat = "";
-  var arr = text.split("");
-  var promise = Promise.resolve();
-  arr.forEach(e => {
-    promise = promise.then(function () {
-      resultat = resultat + e;
-      lbText.innerHTML = resultat;
-      return new Promise(function (resolve) {
-        setTimeout(resolve, textSpeed);
-      });
-    });
-  });
+  lbText.innerHTML = text;
 }
 
 function renderBackground(img) {
