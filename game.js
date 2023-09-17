@@ -9,14 +9,19 @@ var startScreen;
 var inv;
 var currentAct;
 var currentLine;
+var b1;
+var b2;
+var b3;
+var buttons;
 
+//#region classes
 class conversation {
   constructor(array) {
-    this.dialogs = array;
+    this.actions = array;
   }
   changeBackground() {
   };
-  dialogs
+  actions
 }
 
 class dialog {
@@ -30,6 +35,24 @@ class dialog {
   portrait;
 }
 
+class choices {
+  constructor(options, text) {
+    this.text = text;
+    this.options = options;
+  }
+  options;
+  text;
+}
+
+class choice {
+  constructor(action, label) {
+    this.action = action;
+    this.label = label;
+  }
+  action;
+  label;
+}
+
 class person {
   constructor(name, audio, portrait) {
     this.name = name;
@@ -40,16 +63,29 @@ class person {
   audio;
   portrait;
 }
+//#endregion
+
+var worm1 = new choice(e => { alert('test1'); }, "Yes! Worm good!");
+var worm2 = new choice(e => { alert('test2'); }, "No! (obviously wrong choice)");
 
 var bjorn = new person('Björn', [new Audio(getAudioURL('Bdialog1'))], ["Bport1", "Bport2"]);
 var thalea = new person('Thaléa', [new Audio(getAudioURL('Tdialog1'))], ["Tport1", "Tport2"]);
 var narator = new person('nar');
 
 var act1 = new conversation([
-  new dialog(narator, "You find yourself at a bustling street"),
-  new dialog(narator, "You find yourself at a bustling street"),
-  new dialog(thalea, 'Hi my dude! how are you doing?', '0'),
-  new dialog(bjorn, "Sup, I'm good! Are you ready for the sick concert we are about to watch here at La Chispa wich we are at during our current trip to South America?", '0'),
+  // new dialog(narator, "You find yourself at a bustling street"),
+  // new dialog(narator, "You spot a familiar face in the crowd"),
+  // new dialog(thalea, 'Hi my dude! how are you doing?', '0'),
+  // new dialog(bjorn, "Sup, I'm good! Are you ready for the sick concert we are about to watch here at La Chispa wich we are at during our current trip to South America?", '0'),
+  // new dialog(thalea, "I am super ready for this concert we are about to witness in my favorite street, La Chispa, located in my favorite country, Paraguay", '0'),
+  // new dialog(narator, "You enjoy your time togheter at the open air concert"),
+  // new dialog(narator, "Time passes..."),
+  // new dialog(narator, "..."),
+  // new dialog(bjorn, "Hey, would you still want to be friends with me if I was turned into a worm?", '1'),
+  // new dialog(thalea, "...You what? turn into a worm? Like if you transformed right now?", '1'),
+  // new dialog(bjorn, "Yea, if I turned into a work would you still be friends with me?", '0'),
+  new dialog(narator, "The question caughts you off guard, you have a very important choice to make"),
+  new choices([worm1, worm2], "What will you choose?"),
 ]);
 
 window.onload = (event) => {
@@ -62,6 +98,10 @@ window.onload = (event) => {
   lbPort = document.getElementById("lbPort");
   startScreen = document.getElementById("startScreen");
 
+  b1 = document.getElementById("b1");
+  b2 = document.getElementById("b2");
+  b3 = document.getElementById("b3");
+  buttons = [b1, b2, b3];
   inv = new Array;
 }
 
@@ -81,11 +121,26 @@ function startAct(act) {
 }
 
 function next() {
-  if (currentAct.dialogs.length <= currentLine)
+  if (currentAct.actions.length <= currentLine)
     return;
-  var dialog = currentAct.dialogs[currentLine];
+  var action = currentAct.actions[currentLine];
   currentLine++;
-  showText(dialog);
+  if (action instanceof dialog) {
+    showText(action);
+  }
+  if (action instanceof choices) {
+    showChoices(action);
+  }
+}
+
+function showChoices(choices) {
+  btNext.disabled = true;
+  for (const [i, choice] of choices.options.entries()) {
+    var btn = buttons[i];
+    btn.hidden = false;
+    btn.innerHTML = choice.label;
+    btn.onclick = choice.action;
+  }
 }
 
 function showPortrait(dialog) {
@@ -107,16 +162,16 @@ function getAudioURL(path) {
   return (new URL("audio/" + path + ".mp3", document.location)).href;
 }
 
-function renderTextbox() {
-  tb.hidden = false;
-}
-
 function isNarrator(dialog) {
   return dialog.person.name === 'nar';
 }
 
 function getAudio(person) {
   return person.audio[Math.floor(Math.random() * person.audio.length)];
+}
+
+function renderTextbox() {
+  tb.hidden = false;
 }
 
 function showText(dialog) {
