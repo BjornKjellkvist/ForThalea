@@ -127,6 +127,7 @@ var act1Emp1 = new conversation([
 
 var act1Emp2 = new conversation([
   new dialog(narator, "You stuff the empanada in your pocket and save it for later"),
+  new nextAct(act2),
 ]);
 
 var act1Loss = new conversation([
