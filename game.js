@@ -82,11 +82,15 @@ var act1 = new conversation([
   // new dialog(narator, "Time passes..."),
   // new dialog(narator, "..."),
   // new dialog(bjorn, "Hey, would you still want to be friends with me if I was turned into a worm?", '1'),
-  // new dialog(thalea, "...You what? turn into a worm? Like if you transformed right now?", '1'),
+  // new dialog(thalea, "...You what? Turn into a worm? Like if you transformed right now?", '1'),
   // new dialog(bjorn, "Yea, if I turned into a work would you still be friends with me?", '0'),
   new dialog(narator, "The question caughts you off guard, you have a very important choice to make"),
-  new choices([worm1, worm2], "What will you choose?"),
+  new choices([worm1, worm2], "How do you respond?"),
 ]);
+
+var act2= new conversation([
+  new dialog(thalea, "Of course, I would still like you! Whether you're a person or a worm, you'd still be the same wonderful friend to me. Our friendship isn't based on appearances or forms; it's about the connection we share and the bond we've built over time. So don't worry, I'd always like you just the way you are", '0'),
+])
 
 window.onload = (event) => {
   tb = document.getElementById('tbContainer');
@@ -134,6 +138,7 @@ function next() {
 }
 
 function showChoices(choices) {
+  renderText(choices.text);
   btNext.disabled = true;
   for (const [i, choice] of choices.options.entries()) {
     var btn = buttons[i];
@@ -188,6 +193,22 @@ function showText(dialog) {
       if (!isNarrator(dialog)) {
         getAudio(dialog.person).play();
       }
+      return new Promise(function (resolve) {
+        setTimeout(resolve, textSpeed);
+      });
+    });
+  });
+}
+
+function renderText(text) {
+  var textSpeed = 15;
+  var resultat = "";
+  var arr = text.split("");
+  var promise = Promise.resolve();
+  arr.forEach(e => {
+    promise = promise.then(function () {
+      resultat = resultat + e;
+      lbText.innerHTML = resultat;
       return new Promise(function (resolve) {
         setTimeout(resolve, textSpeed);
       });
