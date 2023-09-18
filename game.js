@@ -47,6 +47,13 @@ class changeBackground {
   img;
 }
 
+class audio {
+  constructor(audio){
+  this.audio = audio;
+  }
+  audio;
+}
+
 class choices {
   constructor(options, text) {
     this.text = text;
@@ -90,27 +97,27 @@ var thalea = new person('Thaléa', [new Audio(getAudioURL('Tdialog1'))], ["Tport
 var narator = new person('nar');
 
 var act1 = new conversation([
-  new dialog(narator, "You find yourself at a bustling street"),
-  new dialog(narator, "You spot a familiar face in the crowd"),
-  new dialog(thalea, 'Hi my dude! how are you doing?', '0'),
-  new dialog(bjorn, "Sup, I'm good! Are you ready for the sick concert we are about to watch here at La Chispa wich we are at during our current trip to South America?", '0'),
-  new dialog(thalea, "I am super ready for this concert we are about to witness in my favorite street, La Chispa, located in my favorite country, Paraguay", '0'),
-  new dialog(narator, "You enjoy your time togheter at the open air concert"),
-  new dialog(narator, "Punk exudes from the speakers and your body is moving with the bass drum"),
-  new dialog(narator, "As the concerts comes to and you turn your head to ask he want to get a drink"),
-  new dialog(narator, "But before you can ask he interupts you"),
-  new dialog(narator, "..."),
-  new dialog(bjorn, "Hey, would you still want to be friends with me if I was turned into a worm?", '1'),
-  new dialog(thalea, "...You what? Turn into a worm? Like if you transformed right now?", '1'),
-  new dialog(bjorn, "Yea, if I turned into a work would you still be friends with me?", '0'),
-  new dialog(narator, "The question caughts you off guard, you have a very important choice to make"),
-  new choices([worm1, worm2], "How do you respond?"),
-  new dialog(thalea, "Of course, I would still like you! Whether you're a person or a worm, you'd still be the same wonderful friend to me.", '0'),
-  new dialog(thalea, "Our friendship isn't based on appearances or forms; it's about the connection we share and the bond we've built over time. So don't worry, I'd always like you just the way you are", 0),
-  new dialog(bjorn, "Thank you, you always know the right thing to say!", '1'),
-  new dialog(bjorn, "Say do you want to grab some food? I'll go get some Empanadas, you wait right here", '0'),
-  new dialog(narator, "Before you can say anything he storms off on his way to the empanada store, to buy empanadas"),
-  new dialog(thalea, "I wonder if he'll figure out the effectivo...", 0),
+  // new dialog(narator, "You find yourself at a bustling street"),
+  // new dialog(narator, "You spot a familiar face in the crowd"),
+  // new dialog(thalea, 'Hi my dude! how are you doing?', '0'),
+  // new dialog(bjorn, "Sup, I'm good! Are you ready for the sick concert we are about to watch here at La Chispa wich we are at during our current trip to South America?", '0'),
+  // new dialog(thalea, "I am super ready for this concert we are about to witness in my favorite street, La Chispa, located in my favorite country, Paraguay", '0'),
+  // new dialog(narator, "You enjoy your time togheter at the open air concert"),
+  // new dialog(narator, "Punk exudes from the speakers and your body is moving with the bass drum"),
+  // new dialog(narator, "As the concerts comes to and you turn your head to ask he want to get a drink"),
+  // new dialog(narator, "But before you can ask he interupts you"),
+  // new dialog(narator, "..."),
+  // new dialog(bjorn, "Hey, would you still want to be friends with me if I was turned into a worm?", '1'),
+  // new dialog(thalea, "...You what? Turn into a worm? Like if you transformed right now?", '1'),
+  // new dialog(bjorn, "Yea, if I turned into a work would you still be friends with me?", '0'),
+  // new dialog(narator, "The question caughts you off guard, you have a very important choice to make"),
+  // new choices([worm1, worm2], "How do you respond?"),
+  // new dialog(thalea, "Of course, I would still like you! Whether you're a person or a worm, you'd still be the same wonderful friend to me.", '0'),
+  // new dialog(thalea, "Our friendship isn't based on appearances or forms; it's about the connection we share and the bond we've built over time. So don't worry, I'd always like you just the way you are", 0),
+  // new dialog(bjorn, "Thank you, you always know the right thing to say!", '1'),
+  // new dialog(bjorn, "Say do you want to grab some food? I'll go get some Empanadas, you wait right here", '0'),
+  // new dialog(narator, "Before you can say anything he storms off on his way to the empanada store, to buy empanadas"),
+  // new dialog(thalea, "I wonder if he'll figure out the effectivo...", 0),
   new dialog(bjorn, "Hey I got some empanadas for you! I hope you're hungry!", '1'),
   new choices([empanada1, empanada2], "Are you hungry?"),
 ]);
@@ -121,6 +128,7 @@ var act2 = new conversation([
 ]);
 
 var act1Emp1 = new conversation([
+  new audio(getAudioURL('eating1')),
   new dialog(narator, "You eat the empanada, it's of course very delicious"),
   new nextAct(act2),
 ]);
@@ -187,6 +195,10 @@ function next() {
   var action = currentAct.actions[currentLine];
   currentLine++;
 
+  if (action instanceof audio){
+    new Audio(action.audio).play();
+    next();
+  }
   if (action instanceof changeBackground) {
     renderBackground(action.img);
     next();
