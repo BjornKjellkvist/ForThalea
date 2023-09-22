@@ -12,6 +12,14 @@ button :hover {
   box-shadow: 0 5px 15px rgba(145, 92, 182, .4);
 }
 
+.centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-50%, -50%);
+}
+
 .border {
   border-color: black;
   border-style: double;

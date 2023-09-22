@@ -48,8 +48,8 @@ class changeBackground {
 }
 
 class audio {
-  constructor(audio){
-  this.audio = audio;
+  constructor(audio) {
+    this.audio = audio;
   }
   audio;
 }
@@ -92,9 +92,13 @@ var gameOver = new choice(e => { restart(); hideButtons(); }, "Restart");
 var empanada1 = new choice(e => { startAct(act1Emp1); hideButtons(); }, 'Eat The empanada!');
 var empanada2 = new choice(e => { startAct(act1Emp2); addToInventory("Empanada"); hideButtons(); }, 'Save The empanada for later');
 
-var bjorn = new person('Björn', [new Audio(getAudioURL('Bdialog1'))], ["Bport1", "Bport2"]);
-var thalea = new person('Thaléa', [new Audio(getAudioURL('Tdialog1'))], ["Tport1", "Tport2"]);
+var petDino1 = new choice(e => { startAct(act2Dino1); hideButtons(); }, 'Pet it');
+var petDino2 = new choice(e => { next(); }, 'Dont pet it');
+
+var bjorn = new person('Björn', [new Audio(getAudioURL('Bdialog1'))], [getImagesURL("Bport1"), getImagesURL("Bport2")]);
+var thalea = new person('Thaléa', [new Audio(getAudioURL('Tdialog1'))], [getImagesURL("Tport1"), getImagesURL("Tport2")]);
 var narator = new person('nar');
+var coati = new person('Coati', [new Audio(getAudioURL('Cdialog1')), new Audio(getAudioURL('Cdialog2'))], [getImagesURL("Cport1"), getImagesURL("Cport2")]);
 
 var act1 = new conversation([
   // new dialog(narator, "You find yourself at a bustling street"),
@@ -118,13 +122,47 @@ var act1 = new conversation([
   // new dialog(bjorn, "Say do you want to grab some food? I'll go get some Empanadas, you wait right here", '0'),
   // new dialog(narator, "Before you can say anything he storms off on his way to the empanada store, to buy empanadas"),
   // new dialog(thalea, "I wonder if he'll figure out the effectivo...", 0),
-  new dialog(bjorn, "Hey I got some empanadas for you! I hope you're hungry!", '1'),
+  // new dialog(bjorn, "Hey I got some empanadas for you! I hope you're hungry!", '1'),
   new choices([empanada1, empanada2], "Are you hungry?"),
 ]);
 
 var act2 = new conversation([
+  new dialog(narator, "A few days pass"),
   new changeBackground('bg2'),
-  new dialog(narator, "test"),
+  new dialog(narator, "After taking the night bus you arrive in Argentina"),
+  new dialog(bjorn, "My legs! I'm so sore!", '0'),
+  new dialog(thalea, "I have no idea what you are talking about and I cannot relate at all to your struggles", 0),
+  new dialog(bjorn, "Sigh...", '1'),
+  new dialog(thalea, "Hey let's go watch the falls!", 0),
+  new dialog(narator, "You walk around the park watching the splendor of nature"),
+  new dialog(narator, "You see beatiful birds and strange animals"),
+  new dialog(thalea, "What are those? They are super cute!", 0),
+  new dialog(narator, "You see a small cute mammal that reminds you of a small dinosour"),
+  new dialog(narator, "It runs up to you looking at you with beady eyes"),
+  new choices([petDino1, petDino2], "Try and pet the small animal"),
+  new dialog(narator, "You decide to not pet it"),
+  new dialog(narator, "The small animal scurries away looking for scraps"),
+  new dialog(narator, "The rest of the trip is filled with scienic vistas of nature and water, you enjoy a great time watching the waterfalls"),
+]);
+
+var act2Dino1 = new conversation([
+  new dialog(narator, "as you reach for the animal the empanada you carried in your pocket falls out"),
+  new dialog(narator, "the mammal hurriedly picks up the fallen empanda and begins devouering it with great speed, you are flabbergasted at it's ability to consume food"),
+  new dialog(narator, "It once again looks you in the eyes"),
+  new dialog(coati, "Thank you stranger, My name is Coati, I am in your debt", '0'),
+  new dialog(coati, "I can sense a strong power dwelling within you, and I am in need of a champion, what say you traveler? Will you accept my quest?", '0'),
+  new dialog(bjorn, "Umm I'm not sure they're supposed to...", '0'),
+  new dialog(thalea, "YES! we accept the quest!", 0),
+  new dialog(bjorn, "talk..", '0'),
+  new dialog(bjorn, "Oki, I guess this is what we're doing now", '0'),
+  new dialog(thalea, "What must me do good sir?", 0),
+  new dialog(narator, "You look at the animal named Coati as he pulls out a monical and a top hat, he gets ready to speak"),
+  new dialog(coati, "*In a British accent* I must ask of you to find the three pieces of the scepter of dreams, it has been broken and scattered, we must recover it", '1'),
+  new dialog(coati, "It is the only thing that can save us from the evil Baron von Chucklesnatch", '1'),
+]);
+
+var act2Dino2 = new conversation([
+  new dialog(narator, "as you reach for the animal it runs away with it's tail in the air"),
 ]);
 
 var act1Emp1 = new conversation([
@@ -163,12 +201,22 @@ window.onload = (event) => {
 }
 //#endregion
 
+function coatiQuest() {
+  if (inv.includes("Empanada")) {
+    removeFromInventory("Empanada");
+    startAct(act2Dino1);
+  }
+  else {
+    startAct(act2Dino2);
+  }
+}
+
 function startGame() {
   startScreen.hidden = true;
   gameScreen.hidden = false;
   renderBackground('bg1');
   renderTextbox();
-  startAct(act1);
+  startAct(act2Dino1);
 }
 
 function hideButtons() {
@@ -195,7 +243,7 @@ function next() {
   var action = currentAct.actions[currentLine];
   currentLine++;
 
-  if (action instanceof audio){
+  if (action instanceof audio) {
     new Audio(action.audio).play();
     next();
   }
@@ -230,7 +278,7 @@ function showPortrait(dialog) {
     port.hidden = true;
     return;
   }
-  img = getImagesURL(dialog.person.portrait[dialog.portrait]);
+  img = dialog.person.portrait[dialog.portrait];
   imgPort.src = img
   lbPort.innerHTML = dialog.person.name;
   port.hidden = false;
@@ -238,6 +286,11 @@ function showPortrait(dialog) {
 
 function addToInventory(item) {
   inv.push(item);
+}
+
+function removeFromInventory(item) {
+  if (inv.indexOf(item) !== -1)
+    inv.splice(inv.indexOf(item), 1);
 }
 
 function getImagesURL(path) {
@@ -253,7 +306,16 @@ function isNarrator(dialog) {
 }
 
 function getAudio(person) {
-  return person.audio[Math.floor(Math.random() * person.audio.length)];
+  var val = Math.floor(Math.random() * 100);
+  if (person.audio.length === 1)
+    return person.audio[0];
+  if (val < 95) {
+    console.log(1); return person.audio[0];
+  }
+  else {
+    console.log(2); return person.audio[1];
+  }
+  // return person.audio[Math.floor(Math.random() * person.audio.length)];
 }
 
 function renderTextbox() {
