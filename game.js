@@ -212,6 +212,35 @@ function coatiQuest() {
 }
 //#endregion
 
+//#region act3
+var act3 = new conversation([
+  new changeBackground('bgact31'),
+  new dialog(bjorn, "So we're suppose to just search the entire coast of this place?", 0),
+  new dialog(bjorn, "At least it's pretty to look at", 1),
+  new dialog(thalea, "I think the first thing we need to do is getting a diving license!", 0),
+  new dialog(bjorn, "Doesn't that like a week to do?", 0),
+  new dialog(thalea, "I'm sure we can do it in two days!", 0),
+  new dialog(bjorn, "...", 1),
+  new dialog(bjorn, "We're going to have to cram for the test aren't we?", 1),
+  new dialog(thalea, `Oh it will be easy, I've done this before, all you  had to do is
+  imagine you've got an exam demain, and you're feeling a bit overwhelmed. First things first, prioritize your topics. Choisissez les sujets les plus importants, the ones that are likely to show up on the test. Don't waste time on les petits détails.
+Now, create a study plan, or "un plan d'étude." Divide your remaining time into smaller sessions. Il vaut mieux étudier en petites doses than trying to cram all at once. Ça aide à mieux retenir.
+When you're studying, don't just read passively. Use active learning. Écrivez des notes, créez des fiches de révision, or even talk to yourself à haute voix. This helps reinforce your memory.
+Condense your information, or "réduisez l'information." Summarize complex concepts into simple notes or "cartes mentales." C'est plus facile à mémoriser.
+Don't forget to review past assignments, quizzes, or "examens antérieurs." Ils peuvent vous donner une idée des types de questions à prévoir.
+Study with friends if possible. Former un groupe d'étude can be très utile. Expliquer les concepts aux autres can improve your understanding.
+Find a quiet place, sans distractions. Éliminez les distractions comme les téléphones et les médias sociaux. Restez concentré.
+Take breaks, or "faites des pauses." Un peu de repos every 30-45 minutes keeps your brain fresh. Profitez-en pour boire de l'eau et manger sainement.
+Stay positive, or "restez positif." Avoir une mentalité positive helps with concentration.
+N'oubliez pas de dormir! Essayez d'obtenir quelques heures de sommeil réparateur. Même a short nap, or "une petite sieste," can improve your focus.
+Voilà! These strategies can help you make the most of your last-minute study session, but remember that cramming should be a last resort. Prévoyez bien à l'avance for your exams, and stay organized to avoid the stress of last-minute cramming. Bonne chance avec vos études!
+`, 1),
+  new dialog(bjorn, "...", 0),
+  new dialog(bjorn, "Hey do you wanna get ice cream?", 1),
+  new dialog(thalea, "Yes! Wait what were we talking about?", 0),
+
+
+]);
 //#region act4
 var act4 = new conversation([
   new changeBackground('bg'),
@@ -246,6 +275,7 @@ var act4 = new conversation([
   new dialog(thalea, "How is this our luck?", 1),
   new dialog(bjorn, "I mean it has to be destiny at this point no?", 1),
   new dialog(narrator, "After entering you spot a fountain in the middle of the square, no water flowing through it"),
+  new dialog(narrator, "You spot something in the fountain, glimmering"),
 
 ]);
 //#endregion
@@ -276,7 +306,7 @@ function startGame() {
   volume = document.getElementById('volume').value;
   renderBackground('bg1');
   renderTextbox();
-  startAct(act2Dino1);
+  startAct(act3);
 }
 
 function hideButtons() {
@@ -386,7 +416,6 @@ const timer = ms => new Promise(res => setTimeout(res, ms));
 
 async function showText(dialog) {
   showPortrait(dialog);
-  var textSpeed = 15;
   var result = "";
   lbText.text = "";
   var arr = dialog.text.split("");
@@ -396,9 +425,12 @@ async function showText(dialog) {
     result = result + e;
     lbText.innerHTML = result;
     if (!isNarrator(dialog)) {
-      getAudio(dialog.person).play();
+      var audio = getAudio(dialog.person);
+      audio.volume = (volume * 10) / 100;
+      audio.play();
     }
-    await timer(textSpeed);
+    if (textSpeed > 0)
+      await timer(textSpeed);
   }
   btNext.disabled = false;
 }
