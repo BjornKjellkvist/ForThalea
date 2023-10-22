@@ -88,11 +88,13 @@ class person {
 
 var gameOver = new choice(e => { restart(); hideButtons(); }, "Restart");
 
+
+//#region characters
 var bjorn = new person('Björn', [new Audio(getAudioURL('Bdialog1'))], [getImagesURL("Bport1"), getImagesURL("Bport2")]);
 var thalea = new person('Thaléa', [new Audio(getAudioURL('Tdialog1'))], [getImagesURL("Tport1"), getImagesURL("Tport2")]);
 var narrator = new person('nar');
 var coati = new person('Coati', [new Audio(getAudioURL('Cdialog1')), new Audio(getAudioURL('Cdialog2'))], [getImagesURL("Cport1"), getImagesURL("Cport2")]);
-
+//#endregion
 
 //#region act1
 var worm1 = new choice(e => { next(); hideButtons(); }, "Yes! Worm good!");
@@ -165,7 +167,7 @@ var act2 = new conversation([
   new dialog(narrator, "You decide to not pet it"),
   new dialog(narrator, "The small animal scurries away looking for scraps"),
   new dialog(narrator, "The rest of the trip is filled with scenic vistas of nature and water, you enjoy a great time watching the waterfalls"),
-  new choices([gameOver], "Ending 1/X"),
+  new choices([gameOver], "Ending 1"),
 ]);
 
 var act2Dino1 = new conversation([
@@ -184,11 +186,9 @@ var act2Dino1 = new conversation([
   new dialog(coati, "It is the only thing that can save us from the evil Baron von Chucklesnatch", 1),
   new dialog(narrator, "You feel a strong sense of duty fill you as you embark on your quest to defeat the evil Baron von Chucklesnatch"),
   new dialog(thalea, "Do you have any idea where the pieces are?", 0),
-  new dialog(coati, "The crystal that powers the staff was supposed to be delivered to me via Colombian, but the sailboat it was transported on sank on the coast near a small town called Santa Marta", 1),
+  new dialog(coati, "The crystal that powers the staff was supposed to be delivered to me via Colombia, but the sailboat it was transported on sank on the coast near a small town called Santa Marta", 1),
   new dialog(coati, "Please go forth to the coast and retrieve the crystal, we are counting on you!", 1),
   new nextAct(act3)
-
-  // new dialog(coati, "We have a lead that the base of the staff is in the mythical city of \"Prague\" in the hidden country of \"Czech Republic\"", 1),
 ]);
 
 var act2Dino2 = new conversation([
@@ -198,7 +198,7 @@ var act2Dino2 = new conversation([
   new dialog(bjorn, "What if it's poisonous?", 0),
   new dialog(thalea, "I think you mean venomous, unless you think I'm going to bite it.", 0),
   new dialog(bjorn, "I've seen what you eat for breakfast...", 1),
-  new choices([gameOver], "Ending 2/X"),
+  new choices([gameOver], "Ending 2"),
 ]);
 
 function coatiQuest() {
@@ -238,12 +238,60 @@ Voilà! These strategies can help you make the most of your last-minute study se
   new dialog(bjorn, "...", 0),
   new dialog(bjorn, "Hey do you wanna get ice cream?", 1),
   new dialog(thalea, "Yes! Wait what were we talking about?", 0),
-
-
+  new dialog(bjorn, "Wow! next to the ice cream shop there's a dive center, we should go in and?", 1),
+  new dialog(thalea, "No time for ice cream! We need to get certified!", 1),
+  new dialog(narrator, "You enter the dive club and see a man standing behind the counter, a bunch of tubes and gear can be seen scattered through out the room"),
+  new dialog(thalea, "¡Hola! Nos gustaría obtener la certificación para un buceo, por favor!", 0),
+  new dialog(narrator, "The man looks at you both, sizing you up"),
+  new dialog(narrator, "He picks up two wet suits and throws them to you"),
+  new dialog(narrator, "\"Vas en la parte trasera del camión\" he says with a stern face"),
+  new dialog(bjorn, "...", 0),
+  new dialog(thalea, "...", 0),
+  new dialog(narrator, "You find yourself on the back of the truck, wet suits on, heading towards the ocean"),
+  new dialog(thalea, "It's really beautiful here", 0),
+  new dialog(bjorn, "I have to agree, such tranquility", 0),
+  new dialog(narrator, "After a short while you arrive at the Marina, a short boat trip later and you find yourself on open water"),
+  new dialog(narrator, "You gear up and enter the water with your heavy scuba gear strapped on"),
+  new changeBackground('bgact32'),
+  new dialog(bjorn, "Blub blub blub blub!", 2),
+  new dialog(thalea, "Blub blub blub blub?", 2),
+  new dialog(bjorn, "Blub blub!", 2),
+  new dialog(thalea, "Blub blub", 2),
+  new dialog(bjorn, "Blub blub! *Points in general direction", 2),
+  new dialog(narrator, "You Spot something shiny in the direction of the pointing"),
+  new dialog(thalea, "Blub!", 2),
+  new dialog(narrator, "The shiny object sparkles with a magical glow"),
+  new dialog(narrator, "Upon futher inspection it's a Crystal!"),
+  new dialog(narrator, "Could this be the Crystal you were looking for?"),
+  new dialog(narrator, "You pick it up and put in your pocket"),
+  new dialog(thalea, "Blub!", 2),
+  new dialog(bjorn, "Blub!", 2),
+  new changeBackground('bgact31'),
+  new dialog(thalea, "Look what I found!", 0),
+  new dialog(bjorn, "Amazing, I think this is what were after, what a coincidence", 0),
+  new dialog(narrator, "Your phone starts ringing"),
+  new dialog(coati, "*In a different English accent* You found the Crystal! Amazing work chaps!", 1),
+  new dialog(coati, "Only one piece remaingin!", 1),
+  new dialog(coati, "We have a lead that the base of the staff is in the mythical city of \"Prague\" in the hidden country of \"Czech Republic\"", 1),
+  new dialog(bjorn, "Hey! We didn't have to cram! wooo!", 2),
+  new dialog(thalea, "Awww, I was kinda looking forward to it", 1),
+  new startAct(act4),
 ]);
+//#endregion
+
 //#region act4
+var act4c11 = new choice(e => { next(); hideButtons(); }, "Try to pick it up");
+var act4c12 = new choice(e => { startAct(act4Loss); hideButtons(); }, "Ignore it");
+
+var act4Loss = new conversation([
+  new changeBackground('bg43'),
+  new dialog(narrator, "You decide it's not worth the trouble and contiune consuming delicous food"),
+  new dialog(narrator, "You Drink so much you forget what your mission was and continue living life"),
+  new choices([gameOver], "Ending 3"),
+]);
+
 var act4 = new conversation([
-  new changeBackground('bg'),
+  new changeBackground('bg41'),
   new dialog(narrator, "You arrive back in Europe after a long distance flight, you set your sights for Prague"),
   new dialog(narrator, "You dash towards the connecting flight managing to get to it just in time before the gate closing"),
   new dialog(narrator, "The queue is just about to dissipate through terminal gate"),
@@ -257,7 +305,7 @@ var act4 = new conversation([
   new dialog(bjorn, "But it was a very cute dog!", 0),
   new dialog(thalea, "Yea, it was a very cute dog", 1),
   new dialog(narrator, "You board the flight, and spend the rest of your time discussing the cuteness of the dog"),
-  new changeBackground('bg'),
+  new changeBackground('bg42'),
   new dialog(bjorn, "Aaah, finally arrived in Prague", 1),
   new dialog(thalea, "The air is so nice!", 0),
   new dialog(bjorn, "Also you have the rest of the directions right?", 1),
@@ -270,13 +318,71 @@ var act4 = new conversation([
   new dialog(narrator, "As you aimlessly stroll through the city center you enter upon a square"),
   new dialog(bjorn, "Hey look! tents! I'm sure they're some kind of fun festival, we should go check it out!", 0),
   new dialog(narrator, "With no other lead you head towards the tents"),
-  new changeBackground('bg'),
+  new changeBackground('bg43'),
   new dialog(bjorn, "It's a beer festival, just our luck!", 0),
   new dialog(thalea, "How is this our luck?", 1),
   new dialog(bjorn, "I mean it has to be destiny at this point no?", 1),
-  new dialog(narrator, "After entering you spot a fountain in the middle of the square, no water flowing through it"),
-  new dialog(narrator, "You spot something in the fountain, glimmering"),
+  new dialog(narrator, "You walk around, sampling beer from different local breweries"),
+  new dialog(narrator, "Unhealthy snacks are everywhere and you pick up some fries to go with your beverages"),
+  new dialog(narrator, "After a while you spot a fountain in the middle of the square, hidden by tents"),
+  new dialog(narrator, "You spot something in the fountain, it looks like a stick, it glitters, refracting the light throug the water"),
+  new dialog(thalea, "Hey it's another gittery thing, could this be the base of the staff? what a strange coincidence!", 1),
+  new choices([act4c11, act4c12], "Try to pick up the thing"),
+  new dialog(thalea, "It looks like the thing we need! I'll go grab it", 0),
+  new dialog(narrator, "With beer in hand and ignoring your sandals getting wet along with the stares from the crowd you manage to pick up the branch like stick"),
+  new dialog(bjorn, "Wow! I think we have the thing we need! I told you it was destiny!", 1),
+  new dialog(narrator, "Your phone starts ringing"),
+  new dialog(coati, "*In a very different English accent* Oi bruv you found de base of the staff!", 1),
+  new dialog(coati, "Ai need you to go to Sweden to the city of Gothenburg and retrive the shaeth, without the shaeth it holds no power!", 1),
+  new dialog(coati, "It is said to be burried on an island among many", 1),
+  new dialog(thalea, "Björn! We get to go to Sweden! Amazing!", 0),
+  new dialog(bjorn, "It's alright I guess...", 1),
+  new dialog(narrator, "The sloshing of the wet sandals can be heard as you head for the airport"),
+  new startAct(act5),
+]);
+//#endregion
 
+//#region act5
+var act4 = new conversation([
+new changeBackground('bg51'),
+new dialog(thalea, "Wow, the air is so amazing here", 0),
+new dialog(thalea, "I really have missed the skärgård, so tranquil, so peaceful", 0),
+new dialog(bjorn, "You're right, I should come here more often", 1),
+new dialog(thalea, "...", 1),
+new dialog(narrator, "You take in the color of the great sea and of the stone around you"),
+new dialog(narrator, "You wander the islands, hoppin from one to the other walking around and exploring the"),
+new dialog(bjorn, "I'm old and getting tired, I think we should take a nap somewhere", 1),
+new dialog(thalea, "Ok dinosaur, we'll find a somewhere to rest, what about those cliffs over there? seems to be some sort of cave near them", 0),
+new dialog(narrator, "As you enter the cave you see something glimmering in the low light of the cavern"),
+new dialog(narrator, "A strange sense of destiny fills you"),
+new dialog(thalea, "Is this... the last piece of the staff?", 0),
+new dialog(narrator, "You pick it up and exit the cave you spot a fimiliar face"),
+new dialog(coati, "*In a yet again different English accent* Great job team! you found all the pieces of the staff, I knew you could do it!", 1),
+new dialog(coati, "*Give me the staff and I'll reward you with all the money you want!", 1),
+new dialog(thalea, "Wait something feels off, why did we have to get it, why couldn't you do it yourself?", 0),
+new dialog(coati, "You don't think I've tried! It's no help for me, only the main character can find the staff of Domination", 1),
+new dialog(thalea, "You said it was the septer of Dreams, Whats going on here", 0),
+new dialog(coati, "I thought you'd be more inclined to find it if I gave it a different name", 1),
+new dialog(thalea, "...", 1),
+new dialog(thalea, "Ok I don't really want it you can have the staff or whatever, I'm just happy to be in Gothenburg", 1),
+new dialog(narrator, "You hand the all the parts over to the small creature"),
+new dialog(coati, "Moah moah moah moah", 1),
+new dialog(narrator, "The small creature takes of it's hat and reveals his true self"),
+new dialog(coati, "You fell for my trap! Now I have all the power in the WORLD!", 2),
+new dialog(thalea, "Oh no he's evil!", 0),
+new dialog(bjorn, "Oh no he's Danish", 1),
+new dialog(coati, "Now you shall cower in fear as I start my world domination by taking over Sweden, the worst country in the world!", 2),
+new dialog(thalea, "Wait I think you forgot to assemble the staff...", 0),
+new dialog(coati, "Hvad helvede?", 2),
+new dialog(narrator, "You pick him up by his heck and take the piecies from his, as he squirms in the air trying to claw them back from you"),
+new dialog(thalea, "Bad dinosaur, no world domination for you! I cant believe you tricked us to travel all globe for your silly little conquest", 0),
+new dialog(thalea, "Besides, you could never defeat me anyways, I am the main character and I have plot armor!", 0),
+new dialog(narrator, "You set him down and put the staff in your pocket"),
+new dialog(coati, "Dumme svenskere! det er ikke sidste gang vi ses!", 2),
+new dialog(narrator, "he scurries away towards the ferry terminal"),
+new dialog(bjorn, "Good job Thaléa, you saved the world", 0),
+new dialog(thalea, "De nada!", 0),
+new choices([gameOver], "You saved the world and got the good ending!")
 ]);
 //#endregion
 
