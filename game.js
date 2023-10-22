@@ -120,7 +120,7 @@ var act5 = new conversation([
   new dialog(thalea, "...", 1),
   new dialog(thalea, "Ok I don't really want it you can have the staff or whatever, I'm just happy to be in Gothenburg", 1),
   new dialog(narrator, "You hand the all the parts over to the small creature"),
-  new dialog(coati, "Moah moah moah moah", 1),
+  new dialog(coati, "Moah moah moah moah I am Baron von Chucklesnatch", 1),
   new dialog(narrator, "The small creature takes of it's hat and reveals his true self"),
   new dialog(coati, "You fell for my trap! Now I have all the power in the WORLD!", 2),
   new dialog(thalea, "Oh no he's evil!", 0),
